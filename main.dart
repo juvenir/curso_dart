@@ -1,4 +1,6 @@
-void main() {
+import 'dart:convert';
+
+void main() async {
   //VARIÁVEIS
 
   String variavelNome = "Juvenir";
@@ -73,8 +75,74 @@ void main() {
   print(gol.setValue(30.000));
 
   //HERANÇA, POILIMORFISO E ABSTRAÇÃO.
-}
+  //usado apenas nas classes abaixo.
 
+  //herança
+  Filho juvenir = Filho();
+  print(juvenir.falar());
+
+  //usando o poliformismo
+  Pagamento pagamento = PgBoleto();
+  pagamento.pagar();
+
+  pagamento = PgPix();
+  pagamento.pagar();
+
+//Future
+  //String nome3 = "Débora";
+  Future<String> cepFuture = cepByName("julio 2");
+  late String cep;
+  //cepfuture.then((result)=> cep = result);
+  cep = await cepFuture;
+  print(cep);
+
+  //MAP
+  //{chave,valor}
+  Map<String, String> mapa = {'chave': 'valor'};
+  print(mapa);
+  print(mapa['chave']);
+  //add nova chave
+  //metodo 1
+  mapa.putIfAbsent('nova chave', () => 'novo valor');
+  //metodo 2
+  mapa['nopvachave2'] = 'novo valor2';
+  //deletar uma chave
+  mapa.remove('chave');
+  //atualizar uma chave
+  //metodo 1
+  mapa['nova chave'] = 'atualizado';
+  //metodo 2
+  mapa.update('nova chave', (value) => 'atualizado de novo');
+  //interagir com as chaves
+  mapa.forEach((chave, valor) => print('a chave $chave, o valor $valor'));
+  mapa.keys.forEach(print);
+  mapa.values.forEach(print);
+
+  //JSON
+  String json = ''' {
+     "user": "juvenir",
+     "pass": "1234",
+     "permissions": [
+       "owner", "admin"
+     ]
+     }
+   ''';
+
+  print(json);
+
+  //dessa forma agente trabalha com json como se fosse um mapa.
+  var resultJson = jsonDecode(json);
+  print(resultJson);
+  print(resultJson['user']);
+  print(resultJson['permissions'][0]);
+  //agora fazer ao contrário, transformar mapa em json
+  var resultMap = jsonEncode(mapa);
+  print(resultMap);
+
+  //CALL
+  BuscaNome buscaNome = BuscaNome();
+  buscaNome();
+}
 //MÉTODOS E CLASSES
 //classe por exemplo: celular é uma classe ou objeto celular.
 //Atributos é bem semelhante como agente cria uma variável
@@ -113,4 +181,55 @@ class Carro {
   double get valorCarro => _valor;
   //criando um setter para modificar a variavel privada.
   double setValue(double valor) => _valor = valor;
+}
+
+//Abstração. cria um método e quem implementar(assinar o contrato)
+// precisa retornar o valor.
+
+abstract class Pessoa {
+  String comunicar();
+}
+
+//Assinando o contrato da abstração
+class PessoaAbs implements Pessoa {
+  String comunicar() {
+    return "comunicado";
+  }
+}
+
+//Herança é o contrário da abstração
+class Pai {
+  String falar() {
+    return "fala muito rápido";
+  }
+}
+
+//herdando o método para essa classe
+class Filho extends Pai {}
+//exemplo acima na main.
+
+//Polimofismo
+abstract class Pagamento {
+  void pagar();
+}
+
+class PgBoleto implements Pagamento {
+  void pagar() {
+    print("pago com boleto");
+  }
+}
+
+class PgPix implements Pagamento {
+  void pagar() {
+    print("pago com pix");
+  }
+}
+
+//FUTURE, ASYNC E AWAIT
+Future<String> cepByName(String name) {
+  return Future.value("62504-690");
+}
+
+class BuscaNome {
+  void call() => print("Juvenir, Cibele, Débora");
 }
