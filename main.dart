@@ -142,6 +142,11 @@ void main() async {
   //CALL
   BuscaNome buscaNome = BuscaNome();
   buscaNome();
+
+  //ENUM usando...
+
+  var pagamento2 = Pagamento2();
+  pagamento2.pg(FormaPagamento.BOLETO);
 }
 //MÉTODOS E CLASSES
 //classe por exemplo: celular é uma classe ou objeto celular.
@@ -232,4 +237,28 @@ Future<String> cepByName(String name) {
 
 class BuscaNome {
   void call() => print("Juvenir, Cibele, Débora");
+}
+
+//ENUM
+enum FormaPagamento {
+  PIX(1, 'Pix'),
+  BOLETO(2, 'Boleto'),
+  CARTAO(3, 'Cartão');
+
+  final int id;
+  final String value;
+
+  const FormaPagamento(this.id, this.value);
+}
+
+class Pagamento2 {
+  void pg(FormaPagamento formaPagamento) {
+    if (formaPagamento.value == 'Pix') {
+      print('Pagamento realizado via Pix id ${formaPagamento.id}');
+    } else if (formaPagamento.value == 'Boleto') {
+      print('Pagamento realizado via boleto id ${formaPagamento.id}');
+    } else if (formaPagamento.value == 'Cartão') {
+      print('Pagamento realizado via cartão id ${formaPagamento.id}');
+    }
+  }
 }
